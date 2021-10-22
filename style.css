@@ -1,0 +1,27 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.control {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+button {
+  padding: 15px 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: orange;
+}
+
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue
+}
