@@ -20,21 +20,27 @@ getWidthLabel.innerText = "Введите ширину";
 getBgLabel.innerText = "Введите цвет фона";
 getFontSizeLabel.innerText = "Введите размер текста";
 
-const DomElement = function (selector, height, width, bg, fontSize) {
+const DomElement = function (selector, height, width, bg, fontSize="10px", position = "static") {
   this.selector = selector;
   this.height = height;
   this.width = width;
   this.bg = bg;
   this.fontSize = fontSize;
+  this.position = position;
 
   this.createNewElement = function () {
     let div = document.createElement("div");
     div.textContent = (Math.random() + 1).toString(36).substring(7);
-    selector.startsWith("#") ? 
-      div.setAttribute("id", selector.slice(1)).classList.add("blue")
-      : (selector.startsWith("#") ? div.setAttribute("id", selector.slice(1)).classList.add("blue") : console.log('не класс и не id'))
 
-    div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}`;
+    if (selector.startsWith("#")){
+      div.setAttribute("id", selector.slice(1))
+    } else if (selector.startsWith(".")){
+      div.classList.add(selector.slice(1))
+    } else {
+      console.log('не класс и не id')
+    }
+
+    div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}; position: ${position}`;
     result.appendChild(div);
   };
 };
@@ -50,3 +56,5 @@ addBtn.addEventListener("click", () => {
   const newElement = new DomElement(selector, height, width, bg, fontSize);
   newElement.createNewElement();
 });
+
+
