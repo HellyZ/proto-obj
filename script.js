@@ -13,6 +13,7 @@ const getBg = document.querySelector(".addBg");
 const getFontSize = document.querySelector(".addFontSize");
 
 const result = document.querySelector(".result");
+const squareResult = document.querySelector(".squareResult");
 
 addElementLabel.innerText = "Введите элемент";
 getHeightLabel.innerText = "Введите высоту";
@@ -20,31 +21,39 @@ getWidthLabel.innerText = "Введите ширину";
 getBgLabel.innerText = "Введите цвет фона";
 getFontSizeLabel.innerText = "Введите размер текста";
 
-const DomElement = function (selector, height, width, bg, fontSize="10px", position = "static") {
+const DomElement = function (
+  selector,
+  height,
+  width,
+  bg,
+  fontSize = "10px",
+  position = "relative",
+  destination = result
+) {
   this.selector = selector;
   this.height = height;
   this.width = width;
   this.bg = bg;
   this.fontSize = fontSize;
   this.position = position;
+  this.destination = destination;
 
   this.createNewElement = function () {
     let div = document.createElement("div");
     div.textContent = (Math.random() + 1).toString(36).substring(7);
 
-    if (selector.startsWith("#")){
-      div.setAttribute("id", selector.slice(1))
-    } else if (selector.startsWith(".")){
-      div.classList.add(selector.slice(1))
+    if (selector.startsWith("#")) {
+      div.setAttribute("id", selector.slice(1));
+    } else if (selector.startsWith(".")) {
+      div.classList.add(selector.slice(1));
     } else {
-      console.log('не класс и не id')
+      console.log("не класс и не id");
     }
 
     div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}; position: ${position}`;
-    result.appendChild(div);
+    this.destination.appendChild(div);
   };
 };
-
 
 addBtn.addEventListener("click", () => {
   let selector = getSelector.value;
@@ -57,4 +66,43 @@ addBtn.addEventListener("click", () => {
   newElement.createNewElement();
 });
 
+const newSquare = new DomElement(
+  ".square",
+  "100px",
+  "100px  ",
+  "yellow",
+  "",
+  "absolute",
+  squareResult
+);
 
+document.addEventListener("DOMContentLoaded", newSquare.createNewElement());
+
+function place(selector, x_pos, y_pos) {
+  let element = document.querySelector(selector);
+  element.style.left = x_pos + "px";
+  element.style.top = y_pos + "px";
+}
+
+function moveSquare(event) {
+  let move = document.querySelector(".square").getBoundingClientRect();
+  var left = parseInt(move.left, 10);
+  var top = parseInt(move.top, 10);
+  const key = event.key;
+  switch (key) {
+    case "ArrowLeft":
+      place(".square", left - 10, top);
+      break;
+    case "ArrowRight":
+      place(".square", left + 10, top);
+      break;
+    case "ArrowUp":
+      place(".square", left, top - 10);
+      break;
+    case "ArrowDown":
+      place(".square", left, top + 10);
+      break;
+  }
+}
+
+window.addEventListener("keydown", moveSquare);

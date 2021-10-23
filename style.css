@@ -25,3 +25,7 @@ button {
 .blue {
   color: blue
 }
+
+.result {
+  position: relative;
+}
