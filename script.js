@@ -28,26 +28,14 @@ const DomElement = function (selector, height, width, bg, fontSize) {
   this.fontSize = fontSize;
 
   this.createNewElement = function () {
-    if (selector.startsWith("#")) {
-      console.log(`id: ${this.selector}`);
-      let div = document.createElement("div");
-      div.setAttribute("id", selector.slice(1));
-      div.classList.add("blue");
-      div.textContent = "new element with id";
-      div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}`;
+    let div = document.createElement("div");
+    div.textContent = (Math.random() + 1).toString(36).substring(7);
+    selector.startsWith("#") ? 
+      div.setAttribute("id", selector.slice(1)).classList.add("blue")
+      : (selector.startsWith("#") ? div.setAttribute("id", selector.slice(1)).classList.add("blue") : console.log('не класс и не id'))
 
-      result.appendChild(div);
-      console.log(result);
-    } else if (selector.startsWith(".")) {
-      console.log(`class: ${selector}`);
-      let div = document.createElement("div");
-      div.className = selector.slice(1);
-      div.classList.add("red");
-      div.textContent = "new element with class";
-      div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}`;
-
-      result.appendChild(div);
-    }
+    div.style.cssText = `height: ${height}; width: ${width}; background-color: ${bg}; font-size: ${fontSize}`;
+    result.appendChild(div);
   };
 };
 
@@ -61,5 +49,4 @@ addBtn.addEventListener("click", () => {
 
   const newElement = new DomElement(selector, height, width, bg, fontSize);
   newElement.createNewElement();
-  console.log(newElement);
 });
